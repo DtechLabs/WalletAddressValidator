@@ -126,7 +126,7 @@ let COINS = [
     Coin(
         name: "VertCoin",
         symbol: "vtc",
-        addressTypes: [.mainnet: ["0x", "47", "71", "05"], .testnet: ["6f", "c4"]],
+        addressTypes: [.mainnet: ["", "47", "71", "05"], .testnet: ["6f", "c4"]],
         bech32Hrp: [.mainnet: ["vtc"], .testnet: ["tvtc"]],
         validator: BitcoinAddressValidator.self
     ),
@@ -428,7 +428,7 @@ let COINS = [
         validator: ETHAddressValidator.self
     ),
     Coin(
-        name: "0x",
+        name: "",
         symbol: "zrx",
         validator: ETHAddressValidator.self
     ),
@@ -493,7 +493,7 @@ let COINS = [
     Coin(
         name: "Tron",
         symbol: "trx",
-        addressTypes: [.mainnet: ["0x41"], .testnet: ["0xa0"]],
+        addressTypes: [.mainnet: ["41"], .testnet: ["a0"]],
         validator: TRXAddressValidator.self
     ),
     Coin(

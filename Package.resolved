@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "base32",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/std-swift/Base32.git",
+      "state" : {
+        "revision" : "3bf2b4dc874c615645ad81f4bcc2ced37ac5c9ca",
+        "version" : "3.0.0"
+      }
+    },
+    {
       "identity" : "bigint",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/attaswift/BigInt.git",
@@ -16,6 +25,24 @@
       "state" : {
         "revision" : "db51c407d3be4a051484a141bf0bff36c43d3b1e",
         "version" : "1.8.0"
+      }
+    },
+    {
+      "identity" : "encoding",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/std-swift/Encoding.git",
+      "state" : {
+        "revision" : "bd0dac5c17e8af9c6f85ec3186db07f91b263471",
+        "version" : "2.0.3"
+      }
+    },
+    {
+      "identity" : "swiftcbor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/valpackett/SwiftCBOR.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "edc01765cf6b3685bb622bb09242ef5964fb991b"
       }
     }
   ],

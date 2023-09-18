@@ -32,9 +32,18 @@ public enum CryptoAddressValidator {
             symbol.caseInsensitiveCompare($0.symbol) == .orderedSame
         }
     }
-    
-    public static func isValid(_ address: String, coin: Coin, network: NetworkType = .mainnet) throws -> Bool {
-        try coin.validator.isValid(address, coin: coin, network: network)
+
+    public static func isValid(
+        _ address: String,
+        coin: Coin,
+        network: NetworkType = .mainnet,
+        blockchain: Blockchain? = nil
+    ) throws -> Bool {
+        if let blockchain = blockchain {
+            return try blockchain.validator.isValid(address, coin: coin, network: network)
+        } else {
+            return try coin.validator.isValid(address, coin: coin, network: network)
+        }
     }
 
     public static func isValid(_ address: String, symbol: String, network: NetworkType = .mainnet) throws -> Bool {

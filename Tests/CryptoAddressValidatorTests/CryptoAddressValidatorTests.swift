@@ -13,6 +13,24 @@ final class CryptoAddressValidatorTests: XCTestCase {
         XCTAssertTrue(try CryptoAddressValidator.isValid(address, coin: coin, network: network))
     }
     
+    func valid(_ address: String, symbol: String, network: NetworkType = .mainnet) {
+        XCTAssertTrue(try CryptoAddressValidator.isValid(address, symbol: symbol, network: network))
+    }
+    
+    func invalid(
+        _ address: String,
+        coin: Coin,
+        network: NetworkType = .mainnet,
+        blockchain: CryptoAddressValidator.Blockchain? = nil
+    ) {
+        XCTAssertFalse(
+            try CryptoAddressValidator.isValid(address, coin: coin, network: network, blockchain: blockchain))
+    }
+    
+    func invalid(_ address: String, symbol: String, network: NetworkType = .mainnet) {
+        XCTAssertFalse(try CryptoAddressValidator.isValid(address, symbol: symbol, network: network))
+    }
+    
     func testFindCoin() {
         let coin = CryptoAddressValidator.coin(withSymbol: "xrp")
         XCTAssertNotNil(coin)
@@ -77,4 +95,45 @@ final class CryptoAddressValidatorTests: XCTestCase {
         XCTAssertFalse(try EthereumAddressValidator.isValid("vitalik", coin: eth))
     }
     
+    func testBitcoinCache() throws {
+        let BCH = CryptoAddressValidator.coin(withName: "bitcoincash")!
+        let BTC = CryptoAddressValidator.coin(withName: "Bitcoin")!
+        
+        valid("12KYrjTdVGjFMtaxERSk3gphreJ5US8aUP", coin: BCH)
+        valid("12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y", coin: BCH)
+        valid("12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y", symbol: "BCH")
+        valid("12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y", coin: BTC)
+        valid("12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y", symbol: "bch")
+        valid("12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y", symbol: "bch")
+        valid("1oNLrsHnBcR6dpaBpwz3LSwutbUNkNSjs", coin: BCH)
+        valid("mzBc4XEFSdzCDcTxAgf6EZXgsZWpztRhef", coin: BCH, network: .testnet)
+
+        // p2sh addresses
+        valid("3NJZLcZEEYBpxYEUGewU4knsQRn1WM5Fkt", coin: BCH)
+        valid("2MxKEf2su6FGAUfCEAHreGFQvEYrfYNHvL7", coin: BCH, network: .testnet)
+
+        valid("bitcoincash:qq4v32mtagxac29my6gwj6fd4tmqg8rysu23dax807", symbol: "BCH")
+    }
+    
+    func testUSDT() throws {
+        let USDT = CryptoAddressValidator.coin(withName: "tether")!
+        
+        valid("3MbYQMMmSkC3AgWkj9FMo5LsPTW1zBTwXL", symbol: "usdt")
+        valid("1KdXaqcBeoMAFVAPwTmYvDbEq6RnvNPF6J", coin: USDT)
+        valid("0xF6f6ebAf5D78F4c93Baf856d3005B7395CCC272e", coin: USDT)
+        valid("0x9ec7d40d627ec59981446a6e5acb33d51afcaf8a", coin: USDT)
+        valid("3MbYQMMmSkC3AgWkj9FMo5LsPTW1zBTwXL", coin: USDT)
+        valid("0x9ec7d40d627ec59981446a6e5acb33d51afcaf8a", coin: USDT)
+        
+        throwError("1KdXaqcBeoMAFVAPwTmYvDbEq6RnvNPF6Jp", coin: USDT, error: .addressLength)
+        throwError("0xF6f6ebAf5D78F4c93Baf856d3005B7395CCC272eT", coin: USDT, error: .addressLength)
+        invalid("3MbYQMMmSkC3AgWkj9FMo5LsPTW1zBTwXL", coin: USDT, blockchain: .Ethereum)
+    }
+    
+    func testTRX() throws {
+        let TRX = CryptoAddressValidator.coin(withSymbol: "trx")!
+        
+        valid("TNDzfERDpxLDS2w1q6yaFC7pzqaSQ3Bg3r", coin: TRX)
+        valid("27bLJCYjbH6MT8DBF9xcrK6yZnm43vx7MNQ", coin: TRX, network: .testnet)
+    }
 }
