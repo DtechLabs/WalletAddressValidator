@@ -14,24 +14,23 @@ import Foundation
 
 struct TRXAddressValidator: CoinAddressValidator {
     
-    static func decodeBase58Address(_ source: String) -> String? {
+    static func decodeBase58Address(_ source: String) -> [UInt8]? {
         guard source.count > 4 else {
             return nil
         }
 
         var address = Base58.decode(source)
 
-        let len = address.count
-        let checkSum = address.suffix(4)
+        let checkSum = Data(address.suffix(4))
         address = address.dropLast(4)
-        var hash0 = address.toHexString().sha256()
-        var hash1 = hash0.sha256()
-        var checkSum1 = hash1.hexBytes.prefix(4)
+        let hash0 = Data(address).sha256()
+        let hash1 = hash0.sha256()
+        let checkSum1 = Data(hash1.prefix(4))
         guard checkSum == checkSum1 else {
             return nil
         }
 
-        return address.toHexString()
+        return address
     }
     
     static func isValid(_ address: String, coin: Coin, network: NetworkType) throws -> Bool {
@@ -42,8 +41,8 @@ struct TRXAddressValidator: CoinAddressValidator {
             return false
         }
         
-        if let prefix = coin.addressTypes?[network]?.first {
-            return address.hasPrefix(prefix)
+        if var prefix = coin.addressTypes?[network]?.first {
+            return address.toHexString().hasPrefix(prefix)
         } else {
             return true
         }
