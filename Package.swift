@@ -14,11 +14,13 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/attaswift/BigInt.git", from: Version(5, 0, 0)),
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: Version(1, 0, 0)),
+        .package(url: "https://github.com/std-swift/Base32.git", from: "3.0.0"),
+        .package(url: "https://github.com/valpackett/SwiftCBOR.git", branch: "master")
     ],
     targets: [
         .target(
             name: "CryptoAddressValidator",
-            dependencies: ["BigInt", "CryptoSwift", "CBlake2"]),
+            dependencies: ["BigInt", "CryptoSwift", "CBlake2", "Base32", "SwiftCBOR"]),
         .target(name: "CBlake2"),
         .testTarget(
             name: "CryptoAddressValidatorTests",

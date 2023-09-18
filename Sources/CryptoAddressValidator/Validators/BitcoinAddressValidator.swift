@@ -11,6 +11,17 @@
 import Foundation
 
 struct BitcoinAddressValidator: CoinAddressValidator {
+    
+    static func addressType(_ address: String, expectedLength: Int?) throws -> String {
+        let expectedLength = expectedLength ?? 25
+        let decoded = Base58.decode(address)
+        
+        guard decoded.count == expectedLength else {
+            throw CryptoAddressValidatorError.addressLength
+        }
+        
+        return Data(decoded.prefix(expectedLength - 24)).toHexString()
+    }
 
     static func addressType(_ address: String, coin: Coin) throws -> String {
         let expectedLength = coin.expectedLength ?? 25

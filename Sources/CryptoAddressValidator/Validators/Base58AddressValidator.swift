@@ -15,7 +15,20 @@ import Foundation
 struct Base58AddressValidator: CoinAddressValidator {
     
     static func isValid(_ address: String, coin: Coin, network: NetworkType) throws -> Bool {
-        false
+        guard !address.isEmpty else {
+            return false
+        }
+
+        if let minLength = coin.minLength, address.count < minLength {
+            return false
+        }
+
+        if let maxLength = coin.maxLength, address.count > maxLength {
+            return false
+        }
+        
+        let decoded = Base58.decode(address)
+        return !decoded.isEmpty
     }
     
 }

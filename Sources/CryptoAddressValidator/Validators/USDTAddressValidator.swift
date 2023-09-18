@@ -15,7 +15,12 @@ import Foundation
 struct USDTAddressValidator: CoinAddressValidator {
     
     static func isValid(_ address: String, coin: Coin, network: NetworkType) throws -> Bool {
-        false
+        // Potentially there can be ERC20, TOR or omni
+        if (try? EthereumAddressValidator.isValid(address, coin: coin, network: network)) ?? false {
+            return true
+        } else {
+            return try BitcoinAddressValidator.isValid(address, coin: coin, network: network)
+        }
     }
     
 }
