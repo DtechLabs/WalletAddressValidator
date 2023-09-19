@@ -87,12 +87,13 @@ final class CryptoAddressValidatorTests: XCTestCase {
     func testEthereum() throws {
         let eth = COINS.first(where: { $0.symbol == "eth" })!
         
-        XCTAssertTrue(try EthereumAddressValidator.isValid("0x3404cd68aD5C2511980D4f33B4D0A1Bd5b21CA21", coin: eth))
-        XCTAssertTrue(try EthereumAddressValidator.isValid("0xb4A5897e1Ea52E5B3cbFa0d8D09b63a135B9FE75", coin: eth))
-        XCTAssertTrue(try EthereumAddressValidator.isValid("0x6eb27A009283bc70B7189819111105AF61eed630", coin: eth))
-        XCTAssertTrue(try EthereumAddressValidator.isValid("0xED7b9C6a4eF2a7338F8CE174774Cbffd03DA9e7d", coin: eth))
+        valid("0x7fA08353908cD70b4f64efD7884482D22B3ef144", coin: eth)
+        XCTAssertTrue(try ETHAddressValidator.isValid("0x3404cd68aD5C2511980D4f33B4D0A1Bd5b21CA21", coin: eth))
+        XCTAssertTrue(try ETHAddressValidator.isValid("0xb4A5897e1Ea52E5B3cbFa0d8D09b63a135B9FE75", coin: eth))
+        XCTAssertTrue(try ETHAddressValidator.isValid("0x6eb27A009283bc70B7189819111105AF61eed630", coin: eth))
+        XCTAssertTrue(try ETHAddressValidator.isValid("0xED7b9C6a4eF2a7338F8CE174774Cbffd03DA9e7d", coin: eth))
         
-        XCTAssertFalse(try EthereumAddressValidator.isValid("vitalik", coin: eth))
+        XCTAssertFalse(try ETHAddressValidator.isValid("vitalik", coin: eth))
     }
     
     func testBitcoinCache() throws {

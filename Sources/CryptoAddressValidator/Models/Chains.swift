@@ -63,7 +63,7 @@ extension CryptoAddressValidator {
         var validator: CoinAddressValidator.Type {
             switch self {
                 case .Bitcoin: return BitcoinAddressValidator.self
-                case .Ethereum: return EthereumAddressValidator.self
+                case .Ethereum: return ETHAddressValidator.self
                 case .Tron: return TRXAddressValidator.self
                 default:
                     return BitcoinAddressValidator.self
